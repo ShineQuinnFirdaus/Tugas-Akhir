@@ -42,6 +42,8 @@ WARNA_PENANGANAN = {
 
 # Setiap skenario kini disimpan sebagai SATU pipeline (TF-IDF + CART),
 # hasil dari notebook training yang sudah tidak lagi memakai TruncatedSVD.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 MODEL_FILES = {
     'Semua Data'    : 'pipeline_semua.pkl',
     'Musim Kemarau' : 'pipeline_kemarau.pkl',
@@ -717,7 +719,7 @@ if menu == "  Dashboard Utama":
 
     if not has_data:
         render_placeholder(SVG['map'], "Peta Sebaran Kloropleth Spasial")
-    elif not os.path.exists("jawa.geojson"):
+    elif not os.path.exists(GEOJSON_PATH):
         st.warning("Berkas 'jawa.geojson' tidak ditemukan pada folder utama.")
     else:
         metrik_peta = st.selectbox(
@@ -730,7 +732,7 @@ if menu == "  Dashboard Utama":
             import folium
             from streamlit_folium import st_folium
 
-            with open("jawa.geojson", encoding='utf-8') as f:
+            with open(GEOJSON_PATH, encoding='utf-8') as f:
                 geojson_data = json.load(f)
 
             sample_props = (geojson_data['features'][0]['properties']
