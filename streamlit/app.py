@@ -45,10 +45,12 @@ WARNA_PENANGANAN = {
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_FILES = {
-    'Semua Data'    : 'pipeline_semua.pkl',
-    'Musim Kemarau' : 'pipeline_kemarau.pkl',
-    'Musim Hujan'   : 'pipeline_hujan.pkl',
+    'Semua Data'    : os.path.join(BASE_DIR, 'pipeline_semua.pkl'),
+    'Musim Kemarau' : os.path.join(BASE_DIR, 'pipeline_kemarau.pkl'),
+    'Musim Hujan'   : os.path.join(BASE_DIR, 'pipeline_hujan.pkl'),
 }
+
+GEOJSON_PATH = os.path.join(BASE_DIR, 'jawa.geojson')
 
 NORMALISASI_PETA = {
     **NORMALISASI_PROVINSI,
@@ -399,8 +401,9 @@ with st.sidebar:
         pipeline_kem = load_model('Musim Kemarau')
         pipeline_huj = load_model('Musim Hujan')
         model_ok = True
-    except Exception:
+    except Exception as e:
         model_ok = False
+        st.exception(e)
         pipeline_sem = None
         pipeline_kem = None
         pipeline_huj = None
